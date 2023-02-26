@@ -8,7 +8,7 @@ function SigninPage() {
       <div className="unauth-header">
         <h2 className="text-center mb-5">Welcome to Chat GPT Clone</h2>
         <div className="actions align-center justify-center flex">
-          <button className="bg-indigo-500 rounded px-5 py-2 hover:bg-indigo-400 hover:text-white" onClick={() => signIn()}>Sign-in</button>
+          <button className="bg-indigo-500 rounded px-5 py-2 hover:bg-indigo-400 hover:text-white" onClick={() => signIn(undefined, { callbackUrl: '/app'})}>Sign-in</button>
         </div>
       </div>
     </section>
