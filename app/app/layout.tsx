@@ -13,10 +13,10 @@ export default async function Layout({
 
   return (
     <SessionProvider session={session}>
-      <div className="flex flex-row">
+      <div className="flex flex-row gap-3">
         <Sidebar></Sidebar>
 
-        <div className="flex flex-col flex-1">
+        <div className="flex flex-col flex-1 px-3">
           {children}
         </div>
 
