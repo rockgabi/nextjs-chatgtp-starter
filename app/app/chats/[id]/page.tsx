@@ -14,7 +14,7 @@ function ChatPage({ params }: Props) {
   return (
     <div className="flex flex-col h-screen py-2">
       <div className="">
-        <RenameChat chatRef={params.id as string}></RenameChat>
+        <RenameChat chatId={params.id as string}></RenameChat>
       </div>
       <div className="flex flex-1 items-center justify-center h-screen flex-col">
         <h1 className="text-3xl font-bold m-5 text-center text-gray-500/30">
@@ -23,7 +23,7 @@ function ChatPage({ params }: Props) {
         <EmptyChatIcon></EmptyChatIcon>
       </div>
       <div className="">
-        <ChatInput></ChatInput>
+        <ChatInput chatId={params.id as string}></ChatInput>
       </div>
     </div>
   )

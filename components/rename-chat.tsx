@@ -7,12 +7,12 @@ import { useDocument } from "react-firebase-hooks/firestore";
 import { db } from "../firebase";
 
 type Props = {
-  chatRef: string
+  chatId: string
 }
 
-function RenameChat({ chatRef } : Props) {
+function RenameChat({ chatId } : Props) {
   const session = useSession();
-  const [cd] = useDocument(doc(db, 'users', session.data?.user?.email!, 'chats', chatRef));
+  const [cd] = useDocument(doc(db, 'users', session.data?.user?.email!, 'chats', chatId));
   const [value, setValue] = useState('');
   
 
@@ -23,7 +23,7 @@ function RenameChat({ chatRef } : Props) {
   }, [cd]);
 
   function persist() {
-    updateDoc(doc(db, 'users', session.data?.user?.email!, 'chats', chatRef), { name: value });
+    updateDoc(doc(db, 'users', session.data?.user?.email!, 'chats', chatId), { name: value });
   }
 
   return <input 

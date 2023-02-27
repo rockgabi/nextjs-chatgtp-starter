@@ -1,23 +1,61 @@
 'use client'
 
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
 import { BiSend } from "react-icons/bi";
+import { db } from "../firebase";
+
 
 interface Props {
-
+  chatId: string;
 }
 
-function ChatInput() {
-  const [value, setValue] = useState('');
+const notify = () => toast('Message sent!', { icon: '👍' });
+const model = 'text-davinci-003';
 
-  function send() {
-    // Do stuff in firebase with value
-    
+function ChatInput({ chatId }: Props) {
+  const [value, setValue] = useState('');
+  const { data: session } = useSession();
+
+  async function send() {
+    if (!value) return;
+    const message = value.trim();
     setValue('');
+
+    // Add message to firestore
+    addDoc(collection(db, 'users', session?.user?.email!, 'chats', chatId, 'messages'), {
+      message: value,
+      createdAt: serverTimestamp(),
+      user: {
+        _id: session?.user?.email!,
+        name: session?.user?.name!,
+        avatar: session?.user?.image! || 'https://ui-avatars.com/api/?name=' + session?.user?.name!,
+      }
+    }).then(() => {
+      notify();
+    });
+
+    // Perform a request to the API ask endpoint
+    await fetch('/api/ask', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model,
+        prompt: message,
+        chatId,
+        session
+      })
+    })
+    
   }
 
 
   return <div className="relative">
+    <Toaster></Toaster>
     <textarea 
     id="chat-input" 
     rows={2}
