@@ -1,6 +1,6 @@
 'use client'
 
-import { collection } from "firebase/firestore";
+import { collection, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { useSession } from "next-auth/react"
@@ -13,8 +13,11 @@ import ChatItemRemove from "./chat-item-remove";
 function ChatNavItems() {
   const { data: session } = useSession();
   const [chats, loading, error] = useCollection(
-    session && collection(db, 'users', session?.user?.email!, 'chats')
-  )
+    session && query(
+      collection(db, 'users', session?.user?.email!, 'chats'),
+      orderBy('createdAt', 'desc')
+    )
+  );
   const segments = useSelectedLayoutSegments();
   let activeChat = '';
   // The following is url-dependant, not ideal, but it seems to be intended this way, using useSelectedLayoutSegments() to get the current segments, client side.
