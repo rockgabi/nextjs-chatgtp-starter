@@ -3,12 +3,15 @@ import Sidebar from '../../components/sidebar'
 import SessionProvider from "../../components/session-provider"
 import { getServerSession } from "next-auth"
 import { authOptions } from "../../pages/api/auth/[...nextauth]"
+import { useSelectedLayoutSegments } from 'next/navigation';
+
+type Props = {
+  children: React.ReactNode
+}
 
 export default async function Layout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+  children
+}: Props) {
   const session = await getServerSession(authOptions);
 
   return (

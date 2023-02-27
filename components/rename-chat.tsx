@@ -28,7 +28,7 @@ function RenameChat({ chatRef } : Props) {
 
   return <input 
     type="text" 
-    className="py-3 px-4 text-white bg-transparent cursor-pointer text-sm w-100 hover:bg-gray-500/10 transition-colors duration-200" 
+    className="py-3 px-4 text-gray-400 bg-transparent cursor-pointer text-sm w-100 hover:bg-gray-500/10 transition-colors duration-200" 
     value={value}
     onChange={(v) => setValue(v.currentTarget.value)}
     onBlur={persist}
