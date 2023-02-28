@@ -13,8 +13,6 @@ function ModelSelection() {
 
   const { data: model, mutate: setModel } = useSWR('model', null, { fallbackData: 'text-davinci-003' });
 
-  console.log('Model ', model);
-
   return <Select 
     instanceId="model-select"
     options={models?.options}
