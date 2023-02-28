@@ -6,6 +6,7 @@ import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { BiSend } from "react-icons/bi";
 import { db } from "../firebase";
+import useSWR from 'swr';
 
 
 interface Props {
@@ -13,11 +14,11 @@ interface Props {
 }
 
 const notify = () => toast('Message sent!', { icon: '👍' });
-const model = 'text-davinci-003';
 
 function ChatInput({ chatId }: Props) {
   const [value, setValue] = useState('');
   const { data: session } = useSession();
+  const { data: model } = useSWR('model', null, { fallbackData: 'text-davinci-003' });
 
   async function send() {
     if (!value) return;
@@ -26,7 +27,7 @@ function ChatInput({ chatId }: Props) {
 
     // Add message to firestore
     addDoc(collection(db, 'users', session?.user?.email!, 'chats', chatId, 'messages'), {
-      message: value,
+      text: value,
       createdAt: serverTimestamp(),
       user: {
         _id: session?.user?.email!,
