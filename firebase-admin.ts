@@ -2,10 +2,10 @@ const admin = require("firebase-admin");
 
 let serviceAccount;
 
-if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
-  serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY as string);
-} else {
+try {
   serviceAccount = require("/firebase-service-account.json");
+} catch (error) {
+  serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY as string);
 }
 
 if (admin.apps.length === 0) {
